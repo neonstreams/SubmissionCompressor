@@ -69,6 +69,7 @@ private:
     juce::AudioParameterFloat* threshold{ nullptr };
     juce::AudioParameterChoice* ratio{ nullptr };
     juce::AudioParameterBool* bypassed{ nullptr };
+    juce::AudioParameterBool* dualMono{ nullptr };
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SubmissionCompressorAudioProcessor)
 };

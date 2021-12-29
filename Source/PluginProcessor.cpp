@@ -258,6 +258,8 @@ juce::AudioProcessorValueTreeState::ParameterLayout SubmissionCompressorAudioPro
 
     layout.add(std::make_unique<AudioParameterBool>("Bypassed", "Bypassed", false));
 
+    layout.add(std::make_unique<AudioParameterBool>("DualMono", "DualMono", false));
+
     return layout;
 }
 
