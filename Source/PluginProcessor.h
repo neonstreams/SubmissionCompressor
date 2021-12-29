@@ -9,6 +9,7 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "Compressor.h"
 
 //==============================================================================
 /**
@@ -62,8 +63,7 @@ public:
                   createParameterLayout() };
 private:
 
-    juce::dsp::Compressor<float> compressor;
-
+    Compressor<float> compressor;
     juce::AudioParameterFloat* attack{ nullptr };
     juce::AudioParameterFloat* release{ nullptr };
     juce::AudioParameterFloat* threshold{ nullptr };
