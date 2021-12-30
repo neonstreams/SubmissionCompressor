@@ -34,6 +34,9 @@ SubmissionCompressorAudioProcessor::SubmissionCompressorAudioProcessor()
     ratio = dynamic_cast<juce::AudioParameterChoice*>(apvts.getParameter("Ratio"));
     jassert(ratio != nullptr);
 
+    knee = dynamic_cast<juce::AudioParameterFloat*>(apvts.getParameter("Knee"));
+    jassert(knee != nullptr);
+
     bypassed = dynamic_cast<juce::AudioParameterBool*>(apvts.getParameter("Bypassed"));
     jassert(bypassed != nullptr);
 
@@ -164,9 +167,10 @@ void SubmissionCompressorAudioProcessor::processBlock(juce::AudioBuffer<float>& 
 
     compressor.setAttack(attack->get());
     compressor.setRelease(release->get());
-    //compressor.setKnee(knee->get());
     compressor.setThreshold(threshold->get());
+    compressor.setKnee(knee->get());
     compressor.setRatio(ratio->getCurrentChoiceName().getFloatValue());
+    
 
     auto block = juce::dsp::AudioBlock<float>(buffer);
     auto context = juce::dsp::ProcessContextReplacing<float>(block);
@@ -220,32 +224,33 @@ juce::AudioProcessorValueTreeState::ParameterLayout SubmissionCompressorAudioPro
 
     layout.add(std::make_unique<AudioParameterFloat>("Threshold",
         "Threshold",
-        NormalisableRange<float>(-60, 12, 1, 1),
+        NormalisableRange<float>(-60, 0, 0.1, 1),
         0));
 
-    auto attackReleaseRange = NormalisableRange<float>(5, 500, 1, 1);
+    auto attackRange = NormalisableRange<float>(1, 50, 1, 1);
+    auto releaseRange = NormalisableRange<float>(40, 120, 5, 1);
 
     layout.add(std::make_unique<AudioParameterFloat>("Attack",
         "Attack",
-        attackReleaseRange,
-        50));
+        attackRange,
+        10));
 
     layout.add(std::make_unique<AudioParameterFloat>("Release",
         "Release",
-        attackReleaseRange,
-        250));
+        releaseRange,
+        80));
 
-    auto choices = std::vector<double>{ 1, 1.5, 2, 3, 4, 5, 6, 7, 8, 10, 15, 20, 50, 100 };
+    auto ratioChoices = std::vector<double>{ 2, 3, 4, 5, 6, 7, 8, 9, 10 };
     juce::StringArray sa;
-    for (auto choice : choices)
+    for (auto choice : ratioChoices)
     {
         sa.add(juce::String(choice, 1));
     }
 
-    layout.add(std::make_unique<AudioParameterChoice>("Ratio",
-        "Ratio",
-        sa,
-        3));
+    layout.add(std::make_unique<AudioParameterChoice>("Ratio", "Ratio", sa, 1));
+
+    auto kneeRange = NormalisableRange<float>(0, 20, 1, 1);
+    layout.add(std::make_unique<AudioParameterFloat>("Knee", "Knee",kneeRange, 6));
 
     layout.add(std::make_unique<AudioParameterBool>("Bypassed", "Bypassed", false));
 

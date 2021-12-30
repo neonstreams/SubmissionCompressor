@@ -88,9 +88,9 @@ private:
     void update();
 
     //==============================================================================
-    SampleType threshold, thresholdInverse, ratioInverse;
+    SampleType threshold, thresholdInverse, ratioInverse, kneeInGainUnits, lowerKneeBoundDbUnits, upperKneeBoundDbUnits;
     juce::dsp::BallisticsFilter<SampleType> envelopeFilter;
 
     double sampleRate = 44100.0f;
-    SampleType thresholddB = 0.0f, ratio = 1.0f, attackTime = 1.0f, releaseTime = 100.0f, knee = 1.0f;
+    SampleType thresholddB = 0.0f, ratio = 1.0f, attackTime = 1.0f, releaseTime = 100.0f, kneeInDbUnits = 6.0f, slope = 1.0f;
 };
