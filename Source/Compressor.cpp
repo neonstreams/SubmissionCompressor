@@ -73,7 +73,7 @@ SampleType Compressor<SampleType>::processSample(int channel, SampleType inputVa
     // Ballistics filter with peak rectifier
     auto env = envelopeFilter.processSample(channel, inputValue);
 
-   //VCA
+    //VCA
     auto gain = (env < threshold) ? static_cast<SampleType> (1.0) : std::pow(env * thresholdInverse, ratioInverse - static_cast<SampleType> (1.0));
 
     return gain * inputValue;
@@ -85,12 +85,10 @@ void Compressor<SampleType>::update()
     threshold = juce::Decibels::decibelsToGain(thresholddB, static_cast<SampleType> (-200.0));
     thresholdInverse = static_cast<SampleType> (1.0) / threshold;
     ratioInverse = static_cast<SampleType> (1.0) / ratio;
+    slope = static_cast<SampleType>(1.0) / (ratio - (1.0));
+
     lowerKneeBoundDbUnits = thresholddB - (kneeInDbUnits / 2);
     upperKneeBoundDbUnits = thresholddB + (kneeInDbUnits / 2);
-
-	slope = static_cast<SampleType>(1.0) / (ratio - (1.0));
-
-
     kneeInGainUnits = juce::Decibels::decibelsToGain(kneeInDbUnits, static_cast<SampleType> (-200.0));
 
     envelopeFilter.setAttackTime(attackTime);
