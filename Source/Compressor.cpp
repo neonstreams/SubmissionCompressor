@@ -70,6 +70,9 @@ void Compressor<SampleType>::reset()
 template <typename SampleType>
 SampleType Compressor<SampleType>::processSample(int channel, SampleType inputValue)
 {
+    //inputSampleAmplitudeinDB
+    auto inputValueInDb = juce::Decibels::gainToDecibels(inputValue, static_cast<SampleType> (-200.0));
+
     // Ballistics filter with peak rectifier
     auto env = envelopeFilter.processSample(channel, inputValue);
 
