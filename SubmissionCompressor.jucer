@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="qTVG4A" name="SubmissionCompressor" projectType="audioplug"
               useAppConfig="0" addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1"
-              cppLanguageStandard="17">
+              cppLanguageStandard="17" pluginFormats="buildAU,buildVST3">
   <MAINGROUP id="iDD7Yx" name="SubmissionCompressor">
     <GROUP id="{0C3715FE-7938-9DAE-C000-247CC676D4D3}" name="Source">
       <FILE id="Frm3DY" name="PluginProcessor.cpp" compile="1" resource="0"
